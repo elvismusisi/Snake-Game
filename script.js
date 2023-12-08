@@ -97,3 +97,75 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+// Speed variable
+let speed = 150;
+
+function moveSnake() {
+    // ...
+
+    // Increase speed after eating food
+    if (snakeX === foodX && snakeY === foodY) {
+        speed -= 5; // Adjust as needed
+        clearInterval(gameInterval);
+        gameInterval = setInterval(moveSnake, speed);
+    }
+
+    // ...
+}
+
+let score = 0;
+
+function moveSnake() {
+    // ...
+
+    // Increase the size of the snake and update the score
+    if (snakeX === foodX && snakeY === foodY) {
+        // Increase the size of the snake
+        snake.appendChild(document.createElement('div'));
+        // Update the score
+        score++;
+        // Update the score display on the screen
+        document.getElementById('score').innerText = 'Score: ' + score;
+        // Move food to a new random position
+        placeFood();
+    }
+
+    // ...
+}
+function placeObstacle() {
+    const obstacle = document.createElement('div');
+    obstacle.className = 'obstacle';
+    const obstacleX = Math.floor(Math.random() * 15);
+    const obstacleY = Math.floor(Math.random() * 15);
+    obstacle.style.left = obstacleX * 20 + 'px';
+    obstacle.style.top = obstacleY * 20 + 'px';
+    document.querySelector('.game-container').appendChild(obstacle);
+}
+
+// Call placeObstacle to generate obstacles at the start of the game
+placeObstacle();
+
+function resetGame() {
+    // ...
+
+    // Add a game over animation
+    document.querySelector('.game-container').classList.add('game-over');
+
+    setTimeout(() => {
+        document.querySelector('.game-container').classList.remove('game-over');
+    }, 1000);
+}
+
+// Add a CSS animation for the game-over effect
+/* Add to style.css */
+.game-over {
+    animation: shake 0.5s;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25%, 75% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+}
+
